@@ -6,9 +6,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import dev.josepatino.pokedexcompose.model.PokeType
 
 @Composable
-fun ChipRow(types: List<String>) {
+fun ChipRow(types: List<PokeType>) {
     if (types.size > 1) {
         Row(
             modifier = Modifier
@@ -16,8 +17,8 @@ fun ChipRow(types: List<String>) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            types.forEach { type ->
-                TypeChip(type)
+            types.forEach {
+                TypeChip(it.type.name)
             }
         }
     } else {
@@ -27,7 +28,7 @@ fun ChipRow(types: List<String>) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            TypeChip(types[0])
+            TypeChip(types[0].type.name)
         }
     }
 }

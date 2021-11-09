@@ -16,13 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.josepatino.pokedexcompose.util.getTypeColor
 
 @Composable
 fun TypeChip(type: String) {
     Surface(modifier = Modifier.clip(shape = CircleShape)) {
         Row(
             modifier = Modifier
-                .background(color = Color.Red)
+                .background(color = getTypeColor(type))
                 .height(28.dp)
                 .width(140.dp),
             horizontalArrangement = Arrangement.Center,
