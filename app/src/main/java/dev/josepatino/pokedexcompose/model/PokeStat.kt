@@ -1,32 +1,24 @@
 package dev.josepatino.pokedexcompose.model
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class PokeStat(
+    @Json(name = "base_stat")
     val baseStat: Int,
+    val effort: Int,
     val stat: Detail
 ) {
     val divisor = 120f
     val statPercentage: Float = baseStat / divisor
-
-    companion object {
-        fun statList() = listOf(
-            PokeStat(
-                58, Detail("HP", "")
-            ),
-            PokeStat(
-                64, Detail("ATK", "")
-            ),
-            PokeStat(
-                58, Detail("DEF", "")
-            ),
-            PokeStat(
-                80, Detail("SP_ATK", "")
-            ),
-            PokeStat(
-                65, Detail("SP_DEF", "")
-            ),
-            PokeStat(
-                80, Detail("SPD", "")
-            ),
-        )
+    val derivedName = when (stat.name) {
+        "hp" -> "HP"
+        "attack" -> "ATK"
+        "defense" -> "DEF"
+        "special-attack" -> "SP_ATK"
+        "special-defense" -> "SP_DEF"
+        "speed" -> "SPD"
+        else -> "???"
     }
 }

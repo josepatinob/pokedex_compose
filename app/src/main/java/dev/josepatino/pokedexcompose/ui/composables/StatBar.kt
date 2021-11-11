@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.ui.components
+package dev.josepatino.pokedexcompose.ui.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -6,7 +6,6 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.josepatino.pokedexcompose.model.PokeStat
-import dev.josepatino.pokedexcompose.util.getStatColor
+import dev.josepatino.pokedexcompose.ui.theme.*
 
 @ExperimentalAnimationApi
 @Composable
@@ -37,7 +36,7 @@ fun StatBar(pokeStat: PokeStat) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = pokeStat.stat.name,
+            text = pokeStat.derivedName,
             fontWeight = FontWeight.Light,
             color = White,
             fontSize = 14.sp,
@@ -47,7 +46,7 @@ fun StatBar(pokeStat: PokeStat) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(19.dp)
-                .clip(RoundedCornerShape(50.dp))
+                .clip(shape = CircleShape)
                 .background(color = White)
         ) {
             AnimatedVisibility(visibleState = state) {
@@ -56,7 +55,7 @@ fun StatBar(pokeStat: PokeStat) {
                         .fillMaxHeight()
                         .fillMaxWidth(pokeStat.statPercentage)
                         .clip(shape = CircleShape),
-                    color = getStatColor(pokeStat.stat.name)
+                    color = getBarColor(pokeStat.derivedName)
                 ) {
                     Text(
                         text = "${pokeStat.baseStat} / ${pokeStat.divisor.toInt()}",
@@ -69,4 +68,14 @@ fun StatBar(pokeStat: PokeStat) {
             }
         }
     }
+}
+
+private fun getBarColor(stat: String) = when (stat) {
+    "HP" -> statRed
+    "ATK" -> statYellow
+    "DEF" -> statBlue
+    "SPD" -> statGrayBlue
+    "SP_ATK" -> statLightGreen
+    "SP_DEF" -> statOrange
+    else -> colorSecondary
 }

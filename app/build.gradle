@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -65,4 +67,29 @@ dependencies {
 
     // navigation
     implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:1.12.0"
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
+    // hilt
+    implementation 'com.google.dagger:hilt-android:2.40'
+    kapt 'com.google.dagger:hilt-compiler:2.40'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
+
+    // live data
+    implementation("androidx.compose.runtime:runtime:1.1.0-beta02")
+    implementation("androidx.compose.runtime:runtime-livedata:1.1.0-beta02")
+
+    // landscapist glide helper library for compose
+    implementation "com.github.skydoves:landscapist-glide:1.4.2"
+
+    // accompanist helper library for compose
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.21.2-beta"
 }
