@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.ui.composables
+package dev.josepatino.pokedexcompose.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon

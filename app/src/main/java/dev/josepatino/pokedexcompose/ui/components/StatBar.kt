@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.ui.composables
+package dev.josepatino.pokedexcompose.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -42,6 +42,13 @@ fun StatBar(pokeStat: PokeStat) {
             fontSize = 14.sp,
             modifier = Modifier.width(55.dp)
         )
+        Text(
+            text = "${pokeStat.baseStat}",
+            color = White,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .width(35.dp)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -56,15 +63,7 @@ fun StatBar(pokeStat: PokeStat) {
                         .fillMaxWidth(pokeStat.statPercentage)
                         .clip(shape = CircleShape),
                     color = getBarColor(pokeStat.derivedName)
-                ) {
-                    Text(
-                        text = "${pokeStat.baseStat} / ${pokeStat.divisor.toInt()}",
-                        fontWeight = FontWeight.Bold,
-                        color = White,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 15.dp)
-                    )
-                }
+                ) {}
             }
         }
     }

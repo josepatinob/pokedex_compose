@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.ui.composables
+package dev.josepatino.pokedexcompose.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

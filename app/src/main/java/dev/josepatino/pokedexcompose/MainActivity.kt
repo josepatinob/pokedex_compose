@@ -23,12 +23,9 @@ import androidx.palette.graphics.Palette
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.josepatino.pokedexcompose.model.Pokemon
-import dev.josepatino.pokedexcompose.model.PokemonDetail
-import dev.josepatino.pokedexcompose.ui.screens.PokeDetail
-import dev.josepatino.pokedexcompose.ui.screens.PokedexHome
-import dev.josepatino.pokedexcompose.ui.screens.PokedexHomeViewModel
-import dev.josepatino.pokedexcompose.ui.composables.TopBar
-import dev.josepatino.pokedexcompose.ui.screens.PokeDetailViewModel
+import dev.josepatino.pokedexcompose.model.PokemonInfo
+import dev.josepatino.pokedexcompose.ui.components.TopBar
+import dev.josepatino.pokedexcompose.ui.screens.*
 import dev.josepatino.pokedexcompose.ui.theme.PokedexComposeTheme
 import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
 
@@ -85,15 +82,17 @@ fun PokedexApp() {
 
     Scaffold(
         topBar = {
-            TopBar(
-                onNavigationUp = {
-                    setTopBarPalette(null)
-                    navController.navigateUp()
-                },
-                pokemonNumber = pokemonNumber,
-                currentScreen = currentScreen ?: "",
-                palette = topBarPalette
-            )
+            if (currentScreen != PokeScreen.SearchHome.name) {
+                TopBar(
+                    onNavigationUp = {
+                        setTopBarPalette(null)
+                        navController.navigateUp()
+                    },
+                    pokemonNumber = pokemonNumber,
+                    currentScreen = currentScreen ?: "",
+                    palette = topBarPalette
+                )
+            }
         },
     ) { innerPadding ->
         PokedexNavHost(
@@ -123,15 +122,32 @@ fun PokedexNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = PokeScreen.PokedexHome.name,
+        startDestination = PokeScreen.SearchHome.name,
         modifier = modifier
     ) {
+        composable(PokeScreen.SearchHome.name) {
+            val searchViewModel: SearchViewModel = hiltViewModel()
+            val searchValue: String by searchViewModel.searchValue.observeAsState("")
+            val searchResult: PokemonInfo? by searchViewModel.searchResult.observeAsState()
+
+            SearchHome(
+                onNavigationItemClick = {
+                    navController.navigate(PokeScreen.PokedexHome.name)
+                },
+                onSearch = {
+                    searchViewModel.searchPokemon(it)
+                },
+                onPokemonItemClick = { pokemonName ->
+                    navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
+                },
+                searchResult = searchResult
+            )
+        }
         composable(PokeScreen.PokedexHome.name) {
             val pokeViewModel: PokedexHomeViewModel = hiltViewModel()
-            val pokemon: Pokemon? by pokeViewModel.pokemons.observeAsState(null)
 
             PokedexHome(
-                pokemonList = pokemon?.results ?: emptyList(),
+                pokemons = pokeViewModel.pokemons,
                 onItemClick = { pokemonName ->
                     navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
                 }
@@ -148,13 +164,13 @@ fun PokedexNavHost(
         ) { entry ->
             val pokemonName = entry.arguments?.getString("name")
             val pokeDetailViewModel: PokeDetailViewModel = hiltViewModel()
-            val pokemonDetail: PokemonDetail? by pokeDetailViewModel.pokeDetail.observeAsState(null)
+            val pokemonInfo: PokemonInfo? by pokeDetailViewModel.pokeInfo.observeAsState(null)
 
             pokeDetailViewModel.fetchPokemonDetails(pokemonName ?: "")
-            onPokeNumChange(pokemonDetail?.id ?: -1)
+            onPokeNumChange(pokemonInfo?.id ?: -1)
 
             PokeDetail(
-                pokeDetail = pokemonDetail,
+                pokeInfo = pokemonInfo,
                 onPaletteColorChange = onPaletteChange,
                 palette = palette
             )

@@ -16,16 +16,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.palette.graphics.Palette
-import dev.josepatino.pokedexcompose.model.PokemonDetail
-import dev.josepatino.pokedexcompose.ui.composables.ChipRow
-import dev.josepatino.pokedexcompose.ui.composables.Measurement
-import dev.josepatino.pokedexcompose.ui.composables.PokeImageCard
-import dev.josepatino.pokedexcompose.ui.composables.StatBar
+import dev.josepatino.pokedexcompose.model.PokemonInfo
+import dev.josepatino.pokedexcompose.ui.components.ChipRow
+import dev.josepatino.pokedexcompose.ui.components.Measurement
+import dev.josepatino.pokedexcompose.ui.components.PokeImageCard
+import dev.josepatino.pokedexcompose.ui.components.StatBar
 
 @ExperimentalAnimationApi
 @Composable
 fun PokeDetail(
-    pokeDetail: PokemonDetail?,
+    pokeInfo: PokemonInfo?,
     onPaletteColorChange: (Palette) -> Unit,
     palette: Palette?
 ) {
@@ -37,19 +37,19 @@ fun PokeDetail(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             PokeImageCard(
-                imageUrl = pokeDetail?.imageUrl ?: "",
+                imageUrl = pokeInfo?.imageUrl ?: "",
                 onPaletteColorChange = onPaletteColorChange,
                 palette = palette
             )
             Text(
                 modifier = Modifier.padding(vertical = 10.dp, horizontal = 0.dp),
-                text = pokeDetail?.name ?: "",
+                text = pokeInfo?.name ?: "",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = White
             )
             Text(
-                "Base EXP: ${pokeDetail?.baseExperience}",
+                "Base EXP: ${pokeInfo?.baseExperience}",
                 fontSize = 18.sp,
                 color = White,
             )
@@ -58,15 +58,15 @@ fun PokeDetail(
                     .padding(start = 30.dp, end = 30.dp, top = 20.dp, bottom = 0.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ChipRow(pokeDetail?.types ?: emptyList())
+                ChipRow(pokeInfo?.types ?: emptyList())
                 Row(
                     modifier = Modifier
                         .padding(top = 15.dp)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Measurement(measurement = "${pokeDetail?.weight} KG", category = "Weight")
-                    Measurement(measurement = "${pokeDetail?.height} M", category = "Height")
+                    Measurement(measurement = "${pokeInfo?.weight} KG", category = "Weight")
+                    Measurement(measurement = "${pokeInfo?.height} M", category = "Height")
                 }
                 Text(
                     modifier = Modifier.padding(top = 15.dp),
@@ -75,7 +75,7 @@ fun PokeDetail(
                     fontWeight = FontWeight.Bold,
                     color = White
                 )
-                pokeDetail?.let {
+                pokeInfo?.let {
                     it.stats.forEach {
                         StatBar(it)
                     }

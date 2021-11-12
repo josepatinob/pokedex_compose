@@ -46,7 +46,7 @@ fun PokeGridCard(
                 GlideImage(
                     imageModel = imageUrl,
                     contentScale = ContentScale.Crop,
-                    circularReveal = CircularReveal(duration = 550),
+                    circularReveal = CircularReveal(duration = 350),
                     bitmapPalette = BitmapPalette(
                         useCache = true
                     ) {

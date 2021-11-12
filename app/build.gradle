@@ -92,4 +92,8 @@ dependencies {
 
     // accompanist helper library for compose
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.21.2-beta"
+
+    // paging3 compose
+    implementation "androidx.paging:paging-compose:1.0.0-alpha14"
+
 }

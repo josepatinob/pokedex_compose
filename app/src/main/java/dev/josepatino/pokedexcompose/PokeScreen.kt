@@ -1,5 +1,5 @@
 package dev.josepatino.pokedexcompose
 
 enum class PokeScreen() {
-    PokedexHome, PokeDetail
+    PokedexHome, PokeDetail, SearchHome
 }

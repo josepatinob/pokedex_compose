@@ -11,15 +11,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PokeDetailViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val pokeRepository: PokeRepository
 ) : ViewModel() {
 
-    private val _pokeInfo = MutableLiveData<PokemonInfo>()
-    val pokeInfo: LiveData<PokemonInfo> get() = _pokeInfo
+    private val _searchValue = MutableLiveData<String>()
+    val searchValue: LiveData<String> get() = _searchValue
 
+    private val _searchResult = MutableLiveData<PokemonInfo>()
+    val searchResult: LiveData<PokemonInfo> get() = _searchResult
 
-    fun fetchPokemonDetails(name: String) = viewModelScope.launch {
-        _pokeInfo.value = pokeRepository.fetchPokemonByNameOrNumber(name)
+    fun searchPokemon(value: String) = viewModelScope.launch {
+        _searchResult.value = pokeRepository.fetchPokemonByNameOrNumber(value)
     }
 }

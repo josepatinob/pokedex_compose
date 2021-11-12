@@ -1,7 +1,7 @@
 package dev.josepatino.pokedexcompose.api
 
 import dev.josepatino.pokedexcompose.model.Pokemon
-import dev.josepatino.pokedexcompose.model.PokemonDetail
+import dev.josepatino.pokedexcompose.model.PokemonInfo
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,13 +13,13 @@ interface PokeApi {
 
     @GET("pokemon")
     suspend fun fetchPokemonList(
-        @Query("limit") limit: Int? = 20,
-        @Query("offset") offset: Int? = 0
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): Pokemon
 
     @GET("pokemon/{name}")
-    suspend fun fetchPokemonByName(@Path("name") name: String): PokemonDetail
+    suspend fun fetchPokemonByName(@Path("name") name: String): PokemonInfo
 
     @GET("pokemon/{number}")
-    suspend fun fetchPokemonByNumber(@Path("number") number: String): PokemonDetail
+    suspend fun fetchPokemonByNumber(@Path("number") number: String): PokemonInfo
 }
