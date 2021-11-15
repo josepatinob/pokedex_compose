@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.Flow
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun PokedexHome(
+fun Pokedex(
     pokemons: Flow<PagingData<Detail>>,
     onItemClick: (String) -> Unit
 ) {

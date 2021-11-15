@@ -86,6 +86,9 @@ dependencies {
     // live data
     implementation("androidx.compose.runtime:runtime:1.1.0-beta02")
     implementation("androidx.compose.runtime:runtime-livedata:1.1.0-beta02")
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // landscapist glide helper library for compose
     implementation "com.github.skydoves:landscapist-glide:1.4.2"
@@ -96,4 +99,16 @@ dependencies {
     // paging3 compose
     implementation "androidx.paging:paging-compose:1.0.0-alpha14"
 
+    // material icons
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+    // room
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
 }

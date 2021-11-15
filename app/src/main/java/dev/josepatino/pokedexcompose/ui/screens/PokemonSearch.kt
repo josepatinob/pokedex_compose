@@ -1,10 +1,7 @@
 package dev.josepatino.pokedexcompose.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -14,18 +11,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.josepatino.pokedexcompose.model.PokemonInfo
 import dev.josepatino.pokedexcompose.ui.PokeGridCard
 import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
-import dev.josepatino.pokedexcompose.ui.theme.statLightGreen
 
 @ExperimentalMaterialApi
 @Composable
-fun SearchHome(
+fun PokemonSearch(
     onNavigationItemClick: () -> Unit,
     onSearch: (String) -> Unit,
     searchResult: PokemonInfo?,
@@ -59,7 +54,7 @@ fun SearchHome(
                     },
                     modifier = Modifier
                         .padding(top = 15.dp)
-                        .width(250.dp),
+                        .width(270.dp),
                     shape = CircleShape,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorPrimary,
@@ -67,7 +62,7 @@ fun SearchHome(
                         unfocusedIndicatorColor = Color.Transparent
                     ),
                     singleLine = true,
-                    placeholder = { Text(text = "Search by name") }
+                    placeholder = { Text(text = "Search by name or number") }
                 )
                 Button(
                     onClick = { onSearch(searchValue.lowercase()) },
@@ -118,5 +113,5 @@ fun SearchHome(
 @Composable
 @Preview(showBackground = true)
 fun SearchHomePreview() {
-    SearchHome({}, {}, null, {})
+    PokemonSearch({}, {}, null, {})
 }

@@ -6,7 +6,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,39 +22,75 @@ fun TopBar(
     onNavigationUp: () -> Unit,
     pokemonNumber: Int,
     currentScreen: String,
-    palette: Palette? = null
+    palette: Palette? = null,
+    onSearchClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
 ) {
     val displayNum = if (pokemonNumber != -1) "#%05d".format(pokemonNumber) else ""
     val barColor = if (palette != null) Color(palette.dominantSwatch?.rgb ?: 0) else colorPrimary
 
-    if (currentScreen == PokeScreen.PokedexHome.name) {
-        TopAppBar(
-            title = { Text(text = "Pokedex", color = Color.White) },
-            backgroundColor = colorPrimary
-        )
-    } else {
-        TopAppBar(
-            title = { Text(text = "Pokedex", color = Color.White) },
-            backgroundColor = barColor,
-            navigationIcon = {
-                IconButton(onClick = onNavigationUp) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = "arrow back icon",
-                        tint = Color.White
-                    )
+    when (currentScreen) {
+        PokeScreen.Pokedex.name -> {
+            TopAppBar(
+                title = { Text(text = "Pokedex", color = Color.White) },
+                backgroundColor = colorPrimary,
+                actions = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(
+                            Icons.Filled.Search,
+                            contentDescription = "search icon",
+                            tint = Color.White
+                        )
+                    }
+                    IconButton(onClick = { onFavoriteClick() }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            contentDescription = "favorite icon",
+                            tint = Color.White
+                        )
+                    }
                 }
-            },
-            actions = {
-                Text(
-                    text = displayNum,
-                    modifier = Modifier.padding(end = 10.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            },
-            elevation = 0.dp
-        )
+            )
+        }
+        PokeScreen.PokeDetail.name -> {
+            TopAppBar(
+                title = { Text(text = "Detail", color = Color.White) },
+                backgroundColor = barColor,
+                navigationIcon = {
+                    IconButton(onClick = onNavigationUp) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = "arrow back icon",
+                            tint = Color.White
+                        )
+                    }
+                },
+                actions = {
+                    Text(
+                        text = displayNum,
+                        modifier = Modifier.padding(end = 10.dp),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                },
+                elevation = 0.dp
+            )
+        }
+        PokeScreen.FavoritePokemon.name -> {
+            TopAppBar(
+                title = { Text(text = "Favorites", color = Color.White) },
+                backgroundColor = colorPrimary,
+                navigationIcon = {
+                    IconButton(onClick = onNavigationUp) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = "arrow back icon",
+                            tint = Color.White
+                        )
+                    }
+                }
+            )
+        }
     }
 }

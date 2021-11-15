@@ -19,3 +19,10 @@ data class PokemonInfo(
     val imageUrl =
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
 }
+
+fun PokemonInfo.toFavoritePokemon(): FavoritePokemon = FavoritePokemon(
+    name = name,
+    imageUrl = imageUrl,
+    id = id
+)
+

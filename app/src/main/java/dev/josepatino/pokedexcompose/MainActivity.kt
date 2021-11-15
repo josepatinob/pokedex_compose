@@ -22,7 +22,7 @@ import androidx.navigation.navArgument
 import androidx.palette.graphics.Palette
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.josepatino.pokedexcompose.model.Pokemon
+import dev.josepatino.pokedexcompose.model.FavoritePokemon
 import dev.josepatino.pokedexcompose.model.PokemonInfo
 import dev.josepatino.pokedexcompose.ui.components.TopBar
 import dev.josepatino.pokedexcompose.ui.screens.*
@@ -82,7 +82,7 @@ fun PokedexApp() {
 
     Scaffold(
         topBar = {
-            if (currentScreen != PokeScreen.SearchHome.name) {
+            if (currentScreen != PokeScreen.PokemonSearch.name) {
                 TopBar(
                     onNavigationUp = {
                         setTopBarPalette(null)
@@ -90,7 +90,13 @@ fun PokedexApp() {
                     },
                     pokemonNumber = pokemonNumber,
                     currentScreen = currentScreen ?: "",
-                    palette = topBarPalette
+                    palette = topBarPalette,
+                    onSearchClick = {
+                        navController.navigate(PokeScreen.PokemonSearch.name)
+                    },
+                    onFavoriteClick = {
+                        navController.navigate(PokeScreen.FavoritePokemon.name)
+                    }
                 )
             }
         },
@@ -122,20 +128,19 @@ fun PokedexNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = PokeScreen.SearchHome.name,
+        startDestination = PokeScreen.Pokedex.name,
         modifier = modifier
     ) {
-        composable(PokeScreen.SearchHome.name) {
-            val searchViewModel: SearchViewModel = hiltViewModel()
-            val searchValue: String by searchViewModel.searchValue.observeAsState("")
-            val searchResult: PokemonInfo? by searchViewModel.searchResult.observeAsState()
+        composable(PokeScreen.PokemonSearch.name) {
+            val pokemonSearchViewModel: PokemonSearchViewModel = hiltViewModel()
+            val searchResult: PokemonInfo? by pokemonSearchViewModel.searchResult.observeAsState()
 
-            SearchHome(
+            PokemonSearch(
                 onNavigationItemClick = {
-                    navController.navigate(PokeScreen.PokedexHome.name)
+                    navController.navigate(PokeScreen.Pokedex.name)
                 },
                 onSearch = {
-                    searchViewModel.searchPokemon(it)
+                    pokemonSearchViewModel.searchPokemon(it)
                 },
                 onPokemonItemClick = { pokemonName ->
                     navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
@@ -143,10 +148,10 @@ fun PokedexNavHost(
                 searchResult = searchResult
             )
         }
-        composable(PokeScreen.PokedexHome.name) {
-            val pokeViewModel: PokedexHomeViewModel = hiltViewModel()
+        composable(PokeScreen.Pokedex.name) {
+            val pokeViewModel: PokedexViewModel = hiltViewModel()
 
-            PokedexHome(
+            Pokedex(
                 pokemons = pokeViewModel.pokemons,
                 onItemClick = { pokemonName ->
                     navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
@@ -168,11 +173,32 @@ fun PokedexNavHost(
 
             pokeDetailViewModel.fetchPokemonDetails(pokemonName ?: "")
             onPokeNumChange(pokemonInfo?.id ?: -1)
+            val isFavorited: State<Boolean> =
+                pokeDetailViewModel.isPokemonFavorited(pokemonName ?: "").collectAsState(
+                    initial = false
+                )
 
             PokeDetail(
                 pokeInfo = pokemonInfo,
                 onPaletteColorChange = onPaletteChange,
-                palette = palette
+                palette = palette,
+                isFavorite = isFavorited.value,
+                onFavoriteToggle = {
+                    if (isFavorited.value) {
+                        pokeDetailViewModel.removePokemonFromFavorites(it)
+                    } else {
+                        pokeDetailViewModel.addPokemonToFavorites(it)
+                    }
+                }
+            )
+        }
+        composable(PokeScreen.FavoritePokemon.name) {
+            val favoritePokemonViewModel: FavoritePokemonViewModel = hiltViewModel()
+            val favoritePokemon: List<FavoritePokemon> by favoritePokemonViewModel.favoritePokemon.observeAsState(
+                emptyList()
+            )
+            FavoritePokemon(
+                pokemons = favoritePokemon
             )
         }
     }

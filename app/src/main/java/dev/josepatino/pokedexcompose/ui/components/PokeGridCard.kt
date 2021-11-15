@@ -31,7 +31,7 @@ fun PokeGridCard(
     Surface(
         onClick = { onItemClick(name) },
         modifier = Modifier
-            .padding(8.dp)
+            .padding(10.dp)
             .size(170.dp)
             .clip(shape = RoundedCornerShape(15.dp)),
         color = Color(palette?.dominantSwatch?.rgb ?: 0),

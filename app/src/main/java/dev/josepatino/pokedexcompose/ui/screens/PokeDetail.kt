@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.palette.graphics.Palette
+import dev.josepatino.pokedexcompose.model.FavoritePokemon
 import dev.josepatino.pokedexcompose.model.PokemonInfo
 import dev.josepatino.pokedexcompose.ui.components.ChipRow
 import dev.josepatino.pokedexcompose.ui.components.Measurement
@@ -27,7 +28,9 @@ import dev.josepatino.pokedexcompose.ui.components.StatBar
 fun PokeDetail(
     pokeInfo: PokemonInfo?,
     onPaletteColorChange: (Palette) -> Unit,
-    palette: Palette?
+    palette: Palette?,
+    isFavorite: Boolean,
+    onFavoriteToggle: (FavoritePokemon) -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -37,9 +40,11 @@ fun PokeDetail(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             PokeImageCard(
-                imageUrl = pokeInfo?.imageUrl ?: "",
+                pokemon = pokeInfo,
                 onPaletteColorChange = onPaletteColorChange,
-                palette = palette
+                palette = palette,
+                isFavorite = isFavorite,
+                onFavoriteToggle = onFavoriteToggle
             )
             Text(
                 modifier = Modifier.padding(vertical = 10.dp, horizontal = 0.dp),
@@ -80,12 +85,6 @@ fun PokeDetail(
                         StatBar(it)
                     }
                 }
-            }
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(top = 55.dp, bottom = 25.dp)
-            ) {
-                Text(text = "Add to Favorites")
             }
         }
     }

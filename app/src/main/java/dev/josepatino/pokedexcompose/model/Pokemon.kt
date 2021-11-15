@@ -11,9 +11,9 @@ data class Pokemon(
 ) {
 
     val nextPage: Int =
-        next.substringAfter(delimiter = "=").substringBefore(delimiter = "&").toInt()
+        next.substringAfter(delimiter = "offset=").substringBefore(delimiter = "&").toInt()
 
     val prevPage: Int? =
-        if (previous.isNullOrEmpty()) null else previous.substringAfter(delimiter = "=")
+        if (previous.isNullOrEmpty()) null else previous.substringAfter(delimiter = "offset=")
             .substringBefore(delimiter = "&").toInt()
 }
