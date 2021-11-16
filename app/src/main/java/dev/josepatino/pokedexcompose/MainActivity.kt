@@ -198,7 +198,9 @@ fun PokedexNavHost(
                 emptyList()
             )
             FavoritePokemon(
-                pokemons = favoritePokemon
+                pokemons = favoritePokemon,
+                onRemoveAll = { favoritePokemonViewModel.removeAll() },
+                onRemovePokemon = { favoritePokemonViewModel.removePokemonByName(it) }
             )
         }
     }

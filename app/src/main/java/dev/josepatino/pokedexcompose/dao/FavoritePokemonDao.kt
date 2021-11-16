@@ -16,6 +16,9 @@ interface FavoritePokemonDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(favorite: FavoritePokemon)
 
+    @Query("DELETE FROM favorite_pokemon WHERE name = :name")
+    suspend fun deletePokemonByName(name: String)
+
     @Delete
     suspend fun delete(favorite: FavoritePokemon)
 

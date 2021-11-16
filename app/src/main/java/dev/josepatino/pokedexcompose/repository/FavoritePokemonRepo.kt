@@ -17,5 +17,7 @@ class FavoritePokemonRepo @Inject constructor(
 
     suspend fun delete(favorite: FavoritePokemon) = favoritePokemonDao.delete(favorite)
 
+    suspend fun deletePokemonByName(name: String) = favoritePokemonDao.deletePokemonByName(name)
+
     suspend fun deleteAll() = favoritePokemonDao.deleteAll()
 }

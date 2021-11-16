@@ -29,8 +29,8 @@ fun TopBar(
     val displayNum = if (pokemonNumber != -1) "#%05d".format(pokemonNumber) else ""
     val barColor = if (palette != null) Color(palette.dominantSwatch?.rgb ?: 0) else colorPrimary
 
-    when (currentScreen) {
-        PokeScreen.Pokedex.name -> {
+    when {
+        currentScreen.startsWith(PokeScreen.Pokedex.name) -> {
             TopAppBar(
                 title = { Text(text = "Pokedex", color = Color.White) },
                 backgroundColor = colorPrimary,
@@ -52,7 +52,7 @@ fun TopBar(
                 }
             )
         }
-        PokeScreen.PokeDetail.name -> {
+        currentScreen.startsWith(PokeScreen.PokeDetail.name) -> {
             TopAppBar(
                 title = { Text(text = "Detail", color = Color.White) },
                 backgroundColor = barColor,
@@ -77,7 +77,7 @@ fun TopBar(
                 elevation = 0.dp
             )
         }
-        PokeScreen.FavoritePokemon.name -> {
+        currentScreen.startsWith(PokeScreen.FavoritePokemon.name) -> {
             TopAppBar(
                 title = { Text(text = "Favorites", color = Color.White) },
                 backgroundColor = colorPrimary,

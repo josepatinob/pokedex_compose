@@ -1,7 +1,5 @@
 package dev.josepatino.pokedexcompose.ui.screens
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,14 +7,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.josepatino.pokedexcompose.data.PokemonSource
+import dev.josepatino.pokedexcompose.data.PokemonPagingSource
 import dev.josepatino.pokedexcompose.model.Detail
-import dev.josepatino.pokedexcompose.model.Pokemon
 import dev.josepatino.pokedexcompose.repository.PokeRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +30,6 @@ class PokedexViewModel @Inject constructor(
     //    }
 
     val pokemons: Flow<PagingData<Detail>> = Pager(PagingConfig(pageSize = 1)) {
-        PokemonSource(pokeRepository = pokeRepository)
+        PokemonPagingSource(pokeRepository = pokeRepository)
     }.flow.cachedIn(viewModelScope)
 }

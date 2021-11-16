@@ -1,15 +1,14 @@
 package dev.josepatino.pokedexcompose.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -24,14 +23,40 @@ import dev.josepatino.pokedexcompose.ui.PokeGridCard
 @Composable
 fun FavoritePokemon(
     pokemons: List<FavoritePokemon>,
+    onRemoveAll: () -> Unit,
+    onRemovePokemon: (String) -> Unit
 ) {
-    LazyVerticalGrid(cells = GridCells.Fixed(2)) {
-        items(pokemons) { pokemon ->
-            PokeGridCard(
-                name = pokemon.name,
-                imageUrl = pokemon.imageUrl,
-                onItemClick = {}
-            )
+    var editEnabled by remember { mutableStateOf(false) }
+    val editText = if (editEnabled) "Stop Editing" else "Edit"
+
+    Column {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            TextButton(
+                onClick = { editEnabled = !editEnabled },
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Text(
+                    text = editText,
+                    color = Color.White
+                )
+            }
+            if (editEnabled) {
+                TextButton(onClick = { onRemoveAll() }, modifier = Modifier.padding(5.dp)) {
+                    Text(text = "Remove All", color = Color.White)
+                }
+            }
+        }
+        LazyVerticalGrid(cells = GridCells.Fixed(2)) {
+            items(pokemons) { pokemon ->
+                PokeGridCard(
+                    name = pokemon.name,
+                    imageUrl = pokemon.imageUrl,
+                    onItemClick = {},
+                    hasRemoveFunctionality = true,
+                    showRemoveButton = editEnabled,
+                    onRemoveClick = onRemovePokemon,
+                )
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 package dev.josepatino.pokedexcompose.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,46 +19,66 @@ import androidx.palette.graphics.Palette
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 import com.skydoves.landscapist.palette.BitmapPalette
+import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
 
 @ExperimentalMaterialApi
 @Composable
 fun PokeGridCard(
     name: String,
     imageUrl: String,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    hasRemoveFunctionality: Boolean = false,
+    showRemoveButton: Boolean = false,
+    onRemoveClick: (String) -> Unit = {},
 ) {
     var palette by remember { mutableStateOf<Palette?>(null) }
 
-    Surface(
-        onClick = { onItemClick(name) },
-        modifier = Modifier
-            .padding(10.dp)
-            .size(170.dp)
-            .clip(shape = RoundedCornerShape(15.dp)),
-        color = Color(palette?.dominantSwatch?.rgb ?: 0),
-    ) {
-        Column(
-            Modifier.padding(15.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Box(modifier = Modifier.size(180.dp)) {
+        Surface(
+            onClick = { onItemClick(name) },
+            modifier = Modifier
+                .padding(10.dp)
+                .size(170.dp)
+                .clip(shape = RoundedCornerShape(15.dp)),
+            color = Color(palette?.dominantSwatch?.rgb ?: 0),
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(.825f)
+            Column(
+                Modifier.padding(15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GlideImage(
-                    imageModel = imageUrl,
-                    contentScale = ContentScale.Crop,
-                    circularReveal = CircularReveal(duration = 350),
-                    bitmapPalette = BitmapPalette(
-                        useCache = true
-                    ) {
-                        palette = it
-                    }
+                Box(
+                    modifier = Modifier.fillMaxSize(.825f)
+                ) {
+                    GlideImage(
+                        imageModel = imageUrl,
+                        contentScale = ContentScale.Crop,
+                        circularReveal = CircularReveal(duration = 350),
+                        bitmapPalette = BitmapPalette(
+                            useCache = true
+                        ) {
+                            palette = it
+                        }
+                    )
+                }
+                Text(
+                    text = name, color = Color.White, fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
-            Text(
-                text = name, color = Color.White, fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
+        }
+        if (hasRemoveFunctionality && showRemoveButton) {
+            Surface(
+                onClick = { onRemoveClick(name) },
+                modifier = Modifier
+                    .align(alignment = Alignment.TopEnd)
+                    .clip(shape = CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.RemoveCircle,
+                    contentDescription = "delete icon",
+                    tint = colorPrimary
+                )
+            }
         }
     }
 }

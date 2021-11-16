@@ -6,7 +6,7 @@ import dev.josepatino.pokedexcompose.model.Detail
 import dev.josepatino.pokedexcompose.repository.PokeRepository
 import javax.inject.Inject
 
-class PokemonSource @Inject constructor(
+class PokemonPagingSource @Inject constructor(
     private val pokeRepository: PokeRepository
 ) : PagingSource<Int, Detail>() {
 
