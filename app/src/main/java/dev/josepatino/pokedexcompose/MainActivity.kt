@@ -133,7 +133,9 @@ fun PokedexNavHost(
     ) {
         composable(PokeScreen.PokemonSearch.name) {
             val pokemonSearchViewModel: PokemonSearchViewModel = hiltViewModel()
-            val searchResult: PokemonInfo? by pokemonSearchViewModel.searchResult.observeAsState()
+            val searchUIState: SearchUIState by pokemonSearchViewModel.searchUIState.observeAsState(
+                SearchUIState(false, null, null)
+            )
 
             PokemonSearch(
                 onNavigationItemClick = {
@@ -145,7 +147,7 @@ fun PokedexNavHost(
                 onPokemonItemClick = { pokemonName ->
                     navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
                 },
-                searchResult = searchResult
+                searchUIState = searchUIState
             )
         }
         composable(PokeScreen.Pokedex.name) {

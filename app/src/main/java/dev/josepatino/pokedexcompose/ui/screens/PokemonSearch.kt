@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.josepatino.pokedexcompose.model.PokemonInfo
 import dev.josepatino.pokedexcompose.ui.PokeGridCard
+import dev.josepatino.pokedexcompose.ui.components.PokeProgressIndicator
 import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
 
 @ExperimentalMaterialApi
@@ -23,7 +24,7 @@ import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
 fun PokemonSearch(
     onNavigationItemClick: () -> Unit,
     onSearch: (String) -> Unit,
-    searchResult: PokemonInfo?,
+    searchUIState: SearchUIState,
     onPokemonItemClick: (String) -> Unit
 ) {
     var searchValue by remember { mutableStateOf("") }
@@ -77,15 +78,24 @@ fun PokemonSearch(
                     .fillMaxWidth()
             ) {
                 Text(text = "Results", fontWeight = FontWeight.Bold, fontSize = 22.sp)
-                if (searchResult != null) {
-                    PokeGridCard(
-                        name = searchResult.name,
-                        imageUrl = searchResult.imageUrl,
-                        onItemClick = {
-                            onPokemonItemClick(searchResult.name)
-                        })
-                } else {
-                    Text("No results... please try again!")
+                when {
+                    searchUIState.isLoading -> {
+                        PokeProgressIndicator()
+                    }
+                    searchUIState.error != null -> {
+                        Text("Error: ${searchUIState.error.message}")
+                    }
+                    searchUIState.result != null -> {
+                        PokeGridCard(
+                            name = searchUIState.result.name,
+                            imageUrl = searchUIState.result.imageUrl,
+                            onItemClick = {
+                                onPokemonItemClick(searchUIState.result.name)
+                            })
+                    }
+                    else -> {
+                        Text("No results...")
+                    }
                 }
                 Divider(
                     thickness = 3.dp,
@@ -113,5 +123,5 @@ fun PokemonSearch(
 @Composable
 @Preview(showBackground = true)
 fun SearchHomePreview() {
-    PokemonSearch({}, {}, null, {})
+    PokemonSearch({}, {}, SearchUIState(false, null, null), {})
 }
