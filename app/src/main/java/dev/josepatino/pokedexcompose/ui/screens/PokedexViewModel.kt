@@ -18,17 +18,6 @@ class PokedexViewModel @Inject constructor(
     private val pokeRepository: PokeRepository
 ) : ViewModel() {
 
-    // before adding paging
-    //    private val _pokemons = MutableLiveData<Pokemon>()
-    //    val pokemons: LiveData<Pokemon> get() = _pokemons
-    //
-    //    // Load data from a suspend fun and mutate state
-    //    init {
-    //        viewModelScope.launch {
-    //            _pokemons.value = pokeRepository.fetchPokemonList()
-    //        }
-    //    }
-
     val pokemons: Flow<PagingData<Detail>> = Pager(PagingConfig(pageSize = 1)) {
         PokemonPagingSource(pokeRepository = pokeRepository)
     }.flow.cachedIn(viewModelScope)

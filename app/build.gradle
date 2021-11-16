@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "dev.josepatino.pokedexcompose"
-        minSdk 26
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -87,8 +87,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:1.1.0-beta02")
     implementation("androidx.compose.runtime:runtime-livedata:1.1.0-beta02")
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // landscapist glide helper library for compose
     implementation "com.github.skydoves:landscapist-glide:1.4.2"

@@ -24,7 +24,8 @@ import dev.josepatino.pokedexcompose.ui.PokeGridCard
 fun FavoritePokemon(
     pokemons: List<FavoritePokemon>,
     onRemoveAll: () -> Unit,
-    onRemovePokemon: (String) -> Unit
+    onRemovePokemon: (String) -> Unit,
+    onItemClick: (String) -> Unit
 ) {
     var editEnabled by remember { mutableStateOf(false) }
     val editText = if (editEnabled) "Stop Editing" else "Edit"
@@ -51,7 +52,7 @@ fun FavoritePokemon(
                 PokeGridCard(
                     name = pokemon.name,
                     imageUrl = pokemon.imageUrl,
-                    onItemClick = {},
+                    onItemClick = onItemClick,
                     hasRemoveFunctionality = true,
                     showRemoveButton = editEnabled,
                     onRemoveClick = onRemovePokemon,

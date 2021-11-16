@@ -202,7 +202,10 @@ fun PokedexNavHost(
             FavoritePokemon(
                 pokemons = favoritePokemon,
                 onRemoveAll = { favoritePokemonViewModel.removeAll() },
-                onRemovePokemon = { favoritePokemonViewModel.removePokemonByName(it) }
+                onRemovePokemon = { favoritePokemonViewModel.removePokemonByName(it) },
+                onItemClick = { pokemonName ->
+                    navController.navigate("${PokeScreen.PokeDetail.name}/$pokemonName")
+                }
             )
         }
     }

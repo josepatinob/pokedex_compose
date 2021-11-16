@@ -1,7 +1,10 @@
 package dev.josepatino.pokedexcompose.ui.screens
 
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -28,7 +31,12 @@ fun PokemonSearch(
     onPokemonItemClick: (String) -> Unit
 ) {
     var searchValue by remember { mutableStateOf("") }
-    Surface(color = Color.White) {
+    Surface(
+        color = Color.White,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -39,10 +47,8 @@ fun PokemonSearch(
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
             ) {
                 TextField(
                     value = searchValue,
@@ -54,8 +60,8 @@ fun PokemonSearch(
                         )
                     },
                     modifier = Modifier
-                        .padding(top = 15.dp)
-                        .width(270.dp),
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
                     shape = CircleShape,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = colorPrimary,

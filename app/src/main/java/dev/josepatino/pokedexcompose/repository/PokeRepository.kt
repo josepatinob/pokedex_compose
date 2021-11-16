@@ -14,6 +14,6 @@ class PokeRepository @Inject constructor(
     }
 
     suspend fun fetchPokemonByNameOrNumber(value: String): PokemonInfo {
-        return pokeApi.fetchPokemonByName(value)
+        return pokeApi.fetchPokemonByNameOrNumber(value)
     }
 }
