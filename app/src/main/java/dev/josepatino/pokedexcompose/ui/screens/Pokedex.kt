@@ -42,8 +42,8 @@ fun Pokedex(
         }
 
         lazyPokemons.apply {
-            when {
-                loadState.append is LoadState.Loading -> {
+            when (loadState.append) {
+                is LoadState.Loading -> {
                     item { PokeProgressIndicator() }
                 }
             }
