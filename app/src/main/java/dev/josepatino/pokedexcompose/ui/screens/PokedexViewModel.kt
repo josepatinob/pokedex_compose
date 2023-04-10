@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.josepatino.pokedexcompose.data.PokemonPagingSource
+import dev.josepatino.pokedexcompose.database.PokemonPagingSource
 import dev.josepatino.pokedexcompose.model.Detail
 import dev.josepatino.pokedexcompose.repository.PokeRepository
 import kotlinx.coroutines.flow.Flow

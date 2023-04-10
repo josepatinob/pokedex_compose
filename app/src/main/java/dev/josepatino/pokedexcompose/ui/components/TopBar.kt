@@ -52,6 +52,7 @@ fun TopBar(
                 }
             )
         }
+
         currentScreen.startsWith(PokeScreen.PokeDetail.name) -> {
             TopAppBar(
                 title = { Text(text = "Detail", color = Color.White) },
@@ -77,9 +78,17 @@ fun TopBar(
                 elevation = 0.dp
             )
         }
-        currentScreen.startsWith(PokeScreen.FavoritePokemon.name) -> {
+
+        (currentScreen.startsWith(PokeScreen.FavoritePokemon.name) || currentScreen.startsWith(
+            PokeScreen.PokeAdmin.name
+        )) -> {
             TopAppBar(
-                title = { Text(text = "Favorites", color = Color.White) },
+                title = {
+                    Text(
+                        text = currentScreen.replaceAfter("/", ""),
+                        color = Color.White
+                    )
+                },
                 backgroundColor = colorPrimary,
                 navigationIcon = {
                     IconButton(onClick = onNavigationUp) {

@@ -114,5 +114,8 @@ fun PokedexNavHost(
                 }
             )
         }
+        composable(PokeScreen.PokeAdmin.name) {
+            PokeAdmin()
+        }
     }
 }

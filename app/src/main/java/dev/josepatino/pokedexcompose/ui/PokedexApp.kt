@@ -3,11 +3,20 @@ package dev.josepatino.pokedexcompose.ui
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.palette.graphics.Palette
@@ -69,6 +78,7 @@ fun PokedexApp() {
                 )
             }
         },
+        bottomBar = { PokeBottomBar(currentScreen = currentScreen, navController = navController) },
     ) { innerPadding ->
         PokedexNavHost(
             navController = navController,
@@ -80,6 +90,39 @@ fun PokedexApp() {
                 setTopBarPalette(it)
             },
             palette = topBarPalette
+        )
+    }
+}
+
+@Composable
+fun PokeBottomBar(currentScreen: String?, navController: NavController) {
+    val isSelected = { screen: String ->
+        currentScreen == screen
+    }
+    BottomNavigation(backgroundColor = colorPrimary) {
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home") },
+            label = { Text(text = "Home") },
+            selected = isSelected(PokeScreen.Pokedex.name),
+            onClick = {
+                navController.navigate(PokeScreen.Pokedex.name)
+            }
+        )
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Favorite") },
+            label = { Text(text = "Favorite") },
+            selected = isSelected(PokeScreen.FavoritePokemon.name),
+            onClick = {
+                navController.navigate(PokeScreen.FavoritePokemon.name)
+            }
+        )
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Settings, contentDescription = "Settings") },
+            label = { Text(text = "Settings") },
+            selected = isSelected(PokeScreen.PokeAdmin.name),
+            onClick = {
+                navController.navigate(PokeScreen.PokeAdmin.name)
+            }
         )
     }
 }

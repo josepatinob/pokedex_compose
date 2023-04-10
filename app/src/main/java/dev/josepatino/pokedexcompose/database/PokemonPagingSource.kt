@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.data
+package dev.josepatino.pokedexcompose.database
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
