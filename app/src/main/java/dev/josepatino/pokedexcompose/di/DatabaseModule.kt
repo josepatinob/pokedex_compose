@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.josepatino.pokedexcompose.dao.FavoritePokemonDao
+import dev.josepatino.pokedexcompose.database.FavoritePokemonDao
 import dev.josepatino.pokedexcompose.database.PokedexDatabase
 import javax.inject.Singleton
 

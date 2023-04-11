@@ -8,11 +8,13 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,17 +24,27 @@ import androidx.navigation.compose.rememberNavController
 import androidx.palette.graphics.Palette
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.josepatino.pokedexcompose.PokeScreen
+import dev.josepatino.pokedexcompose.UserRole
 import dev.josepatino.pokedexcompose.ui.components.TopBar
 import dev.josepatino.pokedexcompose.ui.theme.colorPrimary
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun PokedexApp() {
+fun PokedexApp(
+    login: () -> Unit,
+    logout: () -> Unit,
+    userIsAuthenticated: Boolean,
+    userRole: UserRole
+) {
     val navController = rememberNavController()
     val backStackEntry = navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry.value?.destination?.route
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
 
     var topBarPalette by remember { mutableStateOf<Palette?>(null) }
     fun setTopBarPalette(value: Palette?) {
@@ -72,13 +84,30 @@ fun PokedexApp() {
                     onSearchClick = {
                         navController.navigate(PokeScreen.PokemonSearch.name)
                     },
-                    onFavoriteClick = {
-                        navController.navigate(PokeScreen.FavoritePokemon.name)
+                    onLogoutClick = {
+                        logout()
                     }
                 )
             }
         },
-        bottomBar = { PokeBottomBar(currentScreen = currentScreen, navController = navController) },
+        scaffoldState = scaffoldState,
+        bottomBar = {
+            if (userIsAuthenticated) {
+                PokeBottomBar(
+                    currentScreen = currentScreen,
+                    navController = navController,
+                    onAdminClick = {
+                        if (userRole == UserRole.Admin) {
+                            navController.navigate(PokeScreen.PokeAdmin.name)
+                        } else {
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("You are not an admin")
+                            }
+                        }
+                    }
+                )
+            }
+        },
     ) { innerPadding ->
         PokedexNavHost(
             navController = navController,
@@ -89,13 +118,19 @@ fun PokedexApp() {
             onPaletteChange = {
                 setTopBarPalette(it)
             },
-            palette = topBarPalette
+            palette = topBarPalette,
+            login = login,
+            userIsAuthenticated = userIsAuthenticated
         )
     }
 }
 
 @Composable
-fun PokeBottomBar(currentScreen: String?, navController: NavController) {
+fun PokeBottomBar(
+    currentScreen: String?,
+    navController: NavController,
+    onAdminClick: () -> Unit
+) {
     val isSelected = { screen: String ->
         currentScreen == screen
     }
@@ -117,11 +152,16 @@ fun PokeBottomBar(currentScreen: String?, navController: NavController) {
             }
         )
         BottomNavigationItem(
-            icon = { Icon(imageVector = Icons.Filled.Settings, contentDescription = "Settings") },
-            label = { Text(text = "Settings") },
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.Settings,
+                    contentDescription = "Settings"
+                )
+            },
+            label = { Text(text = "Admin") },
             selected = isSelected(PokeScreen.PokeAdmin.name),
             onClick = {
-                navController.navigate(PokeScreen.PokeAdmin.name)
+                onAdminClick()
             }
         )
     }

@@ -1,4 +1,4 @@
-package dev.josepatino.pokedexcompose.dao
+package dev.josepatino.pokedexcompose.database
 
 import androidx.room.*
 import dev.josepatino.pokedexcompose.model.FavoritePokemon

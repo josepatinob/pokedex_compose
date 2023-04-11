@@ -1,8 +1,7 @@
 package dev.josepatino.pokedexcompose.repository
 
-import dev.josepatino.pokedexcompose.dao.FavoritePokemonDao
+import dev.josepatino.pokedexcompose.database.FavoritePokemonDao
 import dev.josepatino.pokedexcompose.model.FavoritePokemon
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FavoritePokemonRepo @Inject constructor(

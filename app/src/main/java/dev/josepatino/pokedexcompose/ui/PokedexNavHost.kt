@@ -30,11 +30,19 @@ fun PokedexNavHost(
     modifier: Modifier = Modifier,
     onPokeNumChange: (Int) -> Unit,
     onPaletteChange: (Palette) -> Unit,
-    palette: Palette?
+    palette: Palette?,
+    login: () -> Unit,
+    userIsAuthenticated: Boolean
 ) {
+    val startDestination = if (userIsAuthenticated) {
+        PokeScreen.Pokedex.name
+    } else {
+        PokeScreen.LoginScreen.name
+    }
+
     NavHost(
         navController = navController,
-        startDestination = PokeScreen.Pokedex.name,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable(PokeScreen.PokemonSearch.name) {
@@ -116,6 +124,12 @@ fun PokedexNavHost(
         }
         composable(PokeScreen.PokeAdmin.name) {
             PokeAdmin()
+        }
+        composable(PokeScreen.LoginScreen.name) {
+            LoginScreen(
+                onLoginClick = { login() },
+                userIsAuthenticated = userIsAuthenticated
+            )
         }
     }
 }

@@ -24,7 +24,7 @@ fun TopBar(
     currentScreen: String,
     palette: Palette? = null,
     onSearchClick: () -> Unit,
-    onFavoriteClick: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     val displayNum = if (pokemonNumber != -1) "#%05d".format(pokemonNumber) else ""
     val barColor = if (palette != null) Color(palette.dominantSwatch?.rgb ?: 0) else colorPrimary
@@ -42,10 +42,10 @@ fun TopBar(
                             tint = Color.White
                         )
                     }
-                    IconButton(onClick = { onFavoriteClick() }) {
+                    IconButton(onClick = { onLogoutClick() }) {
                         Icon(
-                            Icons.Filled.Favorite,
-                            contentDescription = "favorite icon",
+                            Icons.Filled.Logout,
+                            contentDescription = "logout icon",
                             tint = Color.White
                         )
                     }
