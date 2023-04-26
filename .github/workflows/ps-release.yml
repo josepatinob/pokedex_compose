@@ -37,5 +37,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CREDENTIALS }}
           packageName: dev.josepatino.pokedexcompose
-          releaseFiles: app/build/outputs/apk/release/app-release.apk
-          track: production
+          releaseFiles: app/release/app-release.aab
+          track: alpha
