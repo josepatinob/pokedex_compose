@@ -33,7 +33,7 @@ jobs:
 
         # need to verify the below details
       - name: Upload to Play Store
-        uses: r0adkll/upload-google-play@v2
+        uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountCredentialsJson: ${{ secrets.PLAY_STORE_CREDENTIALS }}
           apkPath: 'build/outputs/apk/release/app-release.apk'
