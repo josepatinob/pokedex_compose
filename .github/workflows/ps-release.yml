@@ -25,7 +25,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Release
-        run: ./gradlew clean build assembleRelease
+        run: ./gradlew clean build bundleRelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
