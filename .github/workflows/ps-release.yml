@@ -25,17 +25,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Release
-        run: ./gradlew assembleRelease
+        run: ./gradlew clean build assembleRelease
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-
-      - name: Upload APK to Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-release
-          path: app/build/outputs/apk/release/app-release.apk
 
         # need to verify the below details
       - name: Upload to Play Store
