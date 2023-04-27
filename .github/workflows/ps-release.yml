@@ -6,13 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE }}
-        run: |
-          TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}"/keystore
-          mkdir "${TMP_KEYSTORE_FILE_PATH}"
-          echo $ENCODED_STRING | base64 -di > "${TMP_KEYSTORE_FILE_PATH}"/pokedex-release-keystore.jks
       - uses: actions/checkout@v3
       - name: set up JDK 11
         uses: actions/setup-java@v3
